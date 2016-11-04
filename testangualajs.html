@@ -2,7 +2,6 @@
 <html ng-app="myApp" >
 <head>
   <meta charset="utf-8">
-
 </head>
 
 <body>
@@ -14,8 +13,8 @@
     <th>Điểm thi</th>
   </tr>
   <tr ng-repeat="sinhvien in sinhvienk60">
-    <td>{{sinhvien.HovaTen}}</td>
-    <td>{{sinhvien.MSSV}}</td>
+    <td>{{sinhvien.address}}</td>
+    <td>{{sinhvien.name}}</td>
     <td>{{sinhvien.Diemthi}}</td>
   </tr>
 </table>
@@ -23,29 +22,14 @@
   <script src="js/angular.min.js"></script>
   <script >
     var myApp = angular.module("myApp",[]);
-    myApp.controller("sinhvienCtrl", function($scope){
-      $scope.sinhvienk60 = [
+    myApp.controller("sinhvienCtrl", function($scope, $http){
+      $scope.sinhvienk60 = [];
+
+      $http.get('http://localhost:8000/api/fields/')
+        .success(function(res)
       {
-      "HovaTen" : "Tran Minh Chinh",
-      "MSSV" : 20150456,
-      "Diemthi" : "8.0"
-      },
-      {
-      "HovaTen" : "Nguyen Thi Chinh",
-      "MSSV" : 20150457,
-      "Diemthi" : "9.0"
-      },
-      {
-      "HovaTen" : "Ha Kieu Linh",
-      "MSSV" : 20150458,
-      "Diemthi" : "8.5"
-      },
-      {
-      "HovaTen" : "Ho Ngoc Ha",
-      "MSSV" : 20150459,
-      "Diemthi" : "9.5"
-      }
-    ];
+        $scope.sinhvienk60 = res;
+      });
     });
 
   </script>

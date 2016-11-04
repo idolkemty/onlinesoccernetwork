@@ -1,0 +1,134 @@
+<html ng-app="myApp">
+  <head>
+    <title>Matches</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+  </head>
+  <body id="detailStadium">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <div class="logo">
+          <img src="images/favicon.ico" alt="">
+          </div>
+          <!-- <a class="navbar-brand" href="#myPage">Logo</a> -->
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#myPage">HOME</a></li>
+            <li><a href="#band">UPCOMMING MATCHES</a></li>
+            <li><a href="#tour">SETUP A MATCH</a></li>
+            <li><a href="#contact">YOUR MATCHES</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">USER CONTROL PANEL
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Merchandise</a></li>
+                <li><a href="#">Extras</a></li>
+                <li><a href="#">Media</a></li>
+              </ul>
+            </li>
+            <li><a href="#contact">CONTACT</a></li>
+            <!-- <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="matches">
+      <div class="container " >
+        <div class="row">
+          <div class="heading text-center">
+            <p>Chi tiết sân</p>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-12 col-sm-12 col-xs-12 text-center " ng-controller="myCtrl">
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th class="text-center">Tên Sân</th>
+                  <th class="text-center">Địa Chỉ</th>
+                  <th class="text-center">Giá buổi sáng</th>
+                  <th class="text-center">Giá buổi chiều</th>
+                  <th class="text-center">Giá buổi tối</th>
+                  <th class="text-center">Số điện thoại</th>
+                  <th class="text-center">Hình Ảnh</th>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd"  >
+                  <td class="text-center" >{{stadium.name}}</td>
+                  <td class="text-center" >{{stadium.address}}</td>
+                  <td class="text-center" >{{stadium.price_morning}}</td>
+                  <td class="text-center" >{{stadium.price_afternoon}}</td>
+                  <td class="text-center" >{{stadium.price_evening}}</td>
+                  <td class="text-center" >{{stadium.phone_number}}</td>
+                  <td class="text-center" >
+
+                    <img ng-if="stadium.photo" src="{{stadium.photo}}" style="height:110px;width:110px" class="img-responsive" alt="Image">
+                    <img ng-if="!stadium.photo" src="images/portfolio/11.jpg" style="height:110px;width:110px" class="img-responsive" alt="Image">
+                  </td>
+                </tr>
+
+              </thead>
+            </table>
+
+        </div> -->
+        <div class="col-md-6 "  ng-controller="myCtrl">
+            <h1>{{stadium.name}}</h1>
+            <h2>{{stadium.address}}</h2>
+            <h2>Sáng: {{stadium.price_morning}} VNĐ</h2>
+            <h2>Chiều: {{stadium.price_afternoon}} VNĐ</h2>
+            <h2>Tối: {{stadium.price_evening}} VNĐ</h2>
+            <h2>Liên hệ: {{stadium.phone_number}}</h2>
+        </div>
+
+
+        <div class="col-md-6 googlemaps" >  <div id="map" style="width:500px ;height:500px"></div></div>
+
+
+        </div>
+      </div>
+    </div>
+
+  <script>
+
+      // Create a map object and specify the DOM element for display.
+
+
+  </script>
+  <script src="js/google.map.js"
+  async defer></script>
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script >
+      var myApp = angular.module("myApp",[]);
+      myApp.controller("myCtrl",function($scope,$http,$location){
+        console.log( $location.search()['id']);
+        $scope.stadium = [] ;
+        // https://maps.googleapis.com/maps/api/js?key=AIzaSyALTmC--e7ho0gW9wMgqeK2NaXybqVRch4 &callback=initMap
+        $http.get('http://localhost:8000/api/field/'+ $location.search()['id']+'/').success(function(res){
+            $scope.stadium = res;
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
+              scrollwheel: false,
+              zoom: 16
+
+            });
+            var marker = new google.maps.Marker({
+         map: map,
+         position: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
+         title: 'Hello World!'
+       });
+
+        });
+      });
+    </script>
+
+  </body>
+
+</html>

@@ -30,7 +30,7 @@ h3, h4 {
 .button-index a:hover{
   background-color: #f7ca18;
 }
-.item.active p{
+.item.active p, h1{
   font-size: 60px;
   color: yellow;
   padding-bottom: 20px;
@@ -204,7 +204,15 @@ h3, h4 {
   padding: 10px;
     border: 1px solid #e0e0d1;
 }
-
+#detailStadium {
+  padding-bottom: 50px;
+}
+#detailStadium p{
+  font-size: 50px;
+}
+#detailStadium h1{
+  color:red;
+}
 footer {
     background-color: #2d2d30;
     color: #f5f5f5;

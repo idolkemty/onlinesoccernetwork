@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="myApp" lang="en">
 <head>
   <!-- Theme Made By www.w3schools.com - No Copyright -->
   <title>Online soccer network</title>
@@ -125,56 +125,35 @@
           <h2>Hệ Thống Các Sân Bóng</h2>
         </div>
       </div>
-        <!-- <div class=" col-sm-8 col-sm-offset-2" style="margin-bottom:80px;">
-          <div class="text-center col-md-6 col-sm-6">
-            <select >
-              <option value="0">Đà Nẵng</option>
-              <option value="1">TP Hồ Chí Minh</option>
-              <option value="2">Hà Nội</option>
-            </select>
-          </div>
-
-          <div class="col-md-6 col-sm-6 text-center city-ajax">
-            <select >
-              <option value="">Hòa Khánh</option>
-              <option value="">Cẩm Lệ</option>
-              <option value="">Hải Châu</option>
-            </select>
-          </div>
-        </div> -->
-        <div class="col-md-12 col-sm-12 col-xs-12 text-center ">
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center " ng-controller="myCtrl">
             <table class="table ">
               <thead>
                 <tr>
                   <th class="text-center">Tên Sân</th>
                   <th class="text-center">Địa Chỉ</th>
+                  <th class="text-center">Giá buổi sáng</th>
+                  <th class="text-center">Giá buổi chiều</th>
+                  <th class="text-center">Giá buổi tối</th>
+                  <th class="text-center">Số điện thoại</th>
                   <th class="text-center">Hình Ảnh</th>
                 </tr>
-                <tr style="border-bottom:1px solid #ddd" >
+                <tr style="border-bottom:1px solid #ddd" ng-repeat="stadium in filterData = (stadiums | limitTo:currentPage*3:3 * (currentPage - 1))" >
                   <td class="text-center" >
-                   <a href="">Sân Ngọc Thạch</a>
+                   <a href="detailStadium.html#?id={{stadium.id}}" >{{stadium.name}}</a>
                   </td>
-                  <td class="text-center" >56 Phạm Như Xương</td>
+                  <td class="text-center" >{{stadium.address}}</td>
+                  <td class="text-center" >{{stadium.price_morning}}</td>
+                  <td class="text-center" >{{stadium.price_afternoon}}</td>
+                  <td class="text-center" >{{stadium.price_evening}}</td>
+                  <td class="text-center" >{{stadium.phone_number}}</td>
                   <td class="text-center" >
-                    <img src="images/portfolio/11.jpg" style="height:110px;width:110px" class="img-responsive" alt="Image">
-                  </td>
-                </tr>
-                <tr style="border-bottom:1px solid #ddd" >
-                  <td class="text-center" >
-                   <a href="">Sân Nam Cao</a>
-                  </td>
-                  <td class="text-center" >56 Nam Cao</td>
-                  <td class="text-center" >
-                    <img src="images/portfolio/99.jpg" style="height:110px;width:110px" class="img-responsive" alt="Image">
+                    <img ng-if="stadium.photo" src="{{stadium.photo}}" style="height:110px;width:110px" class="img-responsive" alt="Image">
+                    <img ng-if="!stadium.photo" src="images/portfolio/11.jpg" style="height:110px;width:110px" class="img-responsive" alt="Image">
                   </td>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                </tr>
-              </tbody>
             </table>
+             <ul uib-pagination total-items="totalItems" items-per-page="3" ng-model="currentPage" ng-change="pageChanged()"></ul>
         </div>
       </div>
     </div>
@@ -299,9 +278,29 @@
   </a><br><br>
 
 </footer>
-
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script >
+  var myApp = angular.module("myApp",['ui.bootstrap']);
+  myApp.controller("myCtrl",function($scope,$http){
+    $scope.totalItems = 0;
+    $scope.currentPage = 1;
+    // $scope.maxSize = 3;
+
+
+    $scope.stadiums = [] ;
+    $http.get('http://localhost:8000/api/fields/').success(function(res){
+      $scope.stadiums = res;
+      $scope.totalItems = res.length;
+
+    });
+
+  });
+
+
+</script>
 
 </body>
 </html>

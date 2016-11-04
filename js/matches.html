@@ -48,7 +48,6 @@
 
 
           <div class=" col-md-12" ng-controller="myCtrl" >
-
               <table  >
                 <thead>
                 <tr>
@@ -83,7 +82,6 @@
     <script >
       var myApp = angular.module("myApp",[]);
       myApp.controller("myCtrl",function($scope,$http){
-      
         $scope.matches = [] ;
         $http.get('http://localhost:8000/api/matches/').success(function(res){
             $scope.matches = res;
