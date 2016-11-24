@@ -1,4 +1,4 @@
-<html>
+<html ng-app="myApp">
   <head>
     <title>Login</title>
     <meta charset="utf-8" />
@@ -37,25 +37,38 @@
       </div>
     </nav>
 
-    <section id="login" >
+    <section id="login" ng-controller="myCtrl" >
       <h1 class="text-center">Login</h1>
       <div class="container " style= "padding-top: 50px">
         <div class="col-md-4 col-sm-offset-4  " >
           <form class="login-form">
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên đăng nhập">
+              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên đăng nhập" ng-model="user.name">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Mật khẩu">
+              <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Mật khẩu" ng-model="user.password">
             </div>
             <div class="text-center">
-            <button type="submit" class="btn btn-primary">Sign in</button>   <a href="register.html">Create a new acount ?</a>
+            <button ng-click="login()" type="submit" class="btn btn-primary">Sign in</button>   <a href="register.html">Create a new acount ?</a>
             </div>
           </form>
         </div>
 
     </div>
   </section>
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script >
+    var myApp = angular.module("myApp",[]);
+    myApp.controller("myCtrl",function($scope,$http){
+      $scope.user={};
 
+      $scope.login = function() {
+        $http.post('https://khuebui.herokuapp.com/api/login?username='+$scope.user.name+'&password='+$scope.user.password).success(function(res){
+            $scope.matches = res;
+        });
+      };
+    });
+
+  </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<html>
+<html ng-app="myApp" ng-controller="myCtrl">
   <head>
     <title>Profile</title>
     <meta charset="utf-8" />
@@ -43,32 +43,57 @@
       <div class="container " style= "padding-top: 50px">
         <div class="col-md-4 col-sm-offset-4  " >
           <form class="register-form">
-            <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên đăng nhập">
-            </div>
-            <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-              <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Mật khẩu">
-            </div>
             <div class="form-group">
               <!-- <label for="exampleInputEmail1">Địa chỉ email</label> -->
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"  ng-model="user.email" >
             </div>
-            <div class="form-group">
-              <!-- <label for="exampleInputEmail1">Số điện thoại</label> -->
+            <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên đăng nhập" ng-model="user.name">
+            </div>
+            <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+              <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Mật khẩu" ng-model="user.password">
+            </div>
+
+            <!-- <div class="form-group">
               <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Số điện thoại">
             </div>
             <div class="form-group">
-              <!-- <label for="exampleInputEmail1">Địa chỉ</label> -->
               <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Địa chỉ">
-            </div>
+            </div> -->
             <div class="text-center">
-            <button type="submit" class="btn btn-primary ">Submit</button>
+            <button ng-click="register()" type="submit" class="btn btn-primary ">Submit</button>
             </div>
           </form>
         </div>
 
     </div>
   </section>
+
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script >
+    var myApp = angular.module("myApp",['ngCookies']);
+    myApp.controller("myCtrl",function($scope,$http,$cookies){
+      $scope.currentUser = $cookies.getObject('currentUser');
+      console.log($scope.currentUser);
+      // $scope.maxSize = 3;
+
+      $scope.register = function() {
+        $http.post('https://khuebui.herokuapp.com/api/register?email='+$scope.user.email+'&username='+$scope.user.name+'&password='+$scope.user.password).success(function(res){
+            $scope.currentUser = res.user;
+            $cookies.putObject('currentUser', $scope.currentUser);
+        });
+      };
+
+      $scope.logout= function() {
+        $cookies.remove('currentUser');
+        $scope.currentUser = null;
+      };
+    });
+
+  </script>
 
   </body>
 </html>

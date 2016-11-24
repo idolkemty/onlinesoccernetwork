@@ -1,4 +1,4 @@
-<html ng-app="myApp">
+<html ng-app="myApp" ng-controller="myCtrl" >
   <head>
     <title>Matches</title>
     <meta charset="utf-8">
@@ -8,6 +8,7 @@
 
   </head>
   <body>
+    <header>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -18,25 +19,20 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#myPage">HOME</a></li>
-            <li><a href="#band">UPCOMMING MATCHES</a></li>
-            <li><a href="#tour">SETUP A MATCH</a></li>
-            <li><a href="#contact">YOUR MATCHES</a></li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">USER CONTROL PANEL
-              <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Merchandise</a></li>
-                <li><a href="#">Extras</a></li>
-                <li><a href="#">Media</a></li>
-              </ul>
-            </li>
-            <li><a href="#contact">CONTACT</a></li>
-            <!-- <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li> -->
+            <li><a href="#myPage">TRANG CHỦ</a></li>
+            <li><a href="#band">GIỚI THIÊUK</a></li>
+            <li><a href="#tour">SÂN BÓNG</a></li>
+            <li><a href="#contact">TRẬN ĐẤU</a></li>
+            <li><a href="#contact">SÂN CỎ</a></li>
+            <li><a href="#contact">LIÊN HỆ</a></li>
+            <li ng-if="currentUser"><a href="#contact" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
+            <li  ng-if="currentUser"><a ng-click="logout()" href="">ĐĂNG XUẤT</a></li>
+            <li  ng-if="!currentUser"><a href="">ĐĂNG NHẶP</a></li>
           </ul>
         </div>
       </div>
     </nav>
+    </header>
 
     <div id="matches">
       <div class="container " >
@@ -47,7 +43,7 @@
         </div>
 
 
-          <div class=" col-md-12" ng-controller="myCtrl" >
+          <div class=" col-md-12" >
 
               <table  >
                 <thead>
@@ -80,17 +76,21 @@
       </div>
     </div>
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-cookies.min.js"></script>
     <script >
-      var myApp = angular.module("myApp",[]);
-      myApp.controller("myCtrl",function($scope,$http){
-      
+      var myApp = angular.module("myApp",['ngCookies']);
+      myApp.controller("myCtrl",function($scope,$http,$cookies){
+        $scope.currentUser = $cookies.getObject('currentUser');
+        console.log($scope.currentUser);
+
         $scope.matches = [] ;
-        $http.get('http://localhost:8000/api/matches/').success(function(res){
+        $http.get('https://khuebui.herokuapp.com/api/matches/').success(function(res){
             $scope.matches = res;
         });
-        $http.get('http://localhost:8000/api/matches/').success(function(res){
-            $scope.matches = res;
-        });
+        $scope.logout= function() {
+          $cookies.remove('currentUser');
+          $scope.currentUser = null;
+        };
       });
     </script>
 

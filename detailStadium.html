@@ -79,10 +79,10 @@
         <div class="col-md-6 "  ng-controller="myCtrl">
             <h1>{{stadium.name}}</h1>
             <h2>{{stadium.address}}</h2>
-            <h2>Sáng: {{stadium.price_morning}} VNĐ</h2>
+            <!-- <h2>Sáng: {{stadium.price_morning}} VNĐ</h2>
             <h2>Chiều: {{stadium.price_afternoon}} VNĐ</h2>
             <h2>Tối: {{stadium.price_evening}} VNĐ</h2>
-            <h2>Liên hệ: {{stadium.phone_number}}</h2>
+            <h2>Liên hệ: {{stadium.phone_number}}</h2> -->
         </div>
 
 
@@ -99,7 +99,7 @@
 
 
   </script>
-  <script src="js/google.map.js"
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALTmC--e7ho0gW9wMgqeK2NaXybqVRch4"
   async defer></script>
 
     <script type="text/javascript" src="js/jquery.js"></script>
@@ -108,12 +108,12 @@
     <script >
       var myApp = angular.module("myApp",[]);
       myApp.controller("myCtrl",function($scope,$http,$location){
-        console.log( $location.search()['id']);
         $scope.stadium = [] ;
-        // https://maps.googleapis.com/maps/api/js?key=AIzaSyALTmC--e7ho0gW9wMgqeK2NaXybqVRch4 &callback=initMap
-        $http.get('http://localhost:8000/api/field/'+ $location.search()['id']+'/').success(function(res){
+        $http.get('https://khuebui.herokuapp.com/api/field/'+ $location.search()['id']+'/').success(function(res){
             $scope.stadium = res;
+            console.log($scope.stadium);
             var map = new google.maps.Map(document.getElementById('map'), {
+
               center: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
               scrollwheel: false,
               zoom: 16
