@@ -8,6 +8,7 @@
   </head>
 
   <body>
+    <header>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -18,25 +19,21 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#myPage">HOME</a></li>
-            <li><a href="#band">UPCOMMING MATCHES</a></li>
-            <li><a href="#tour">SETUP A MATCH</a></li>
-            <li><a href="#contact">YOUR MATCHES</a></li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">USER CONTROL PANEL
-              <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Merchandise</a></li>
-                <li><a href="#">Extras</a></li>
-                <li><a href="#">Media</a></li>
-              </ul>
-            </li>
-            <li><a href="#contact">CONTACT</a></li>
-            <!-- <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li> -->
+            <li><a href="index.html">TRANG CHỦ</a></li>
+            <li><a href="index.html#about-us">GIỚI THIỆU</a></li>
+            <li><a href="index.html#soccer-system">SÂN BÓNG</a></li>
+            <li><a href="matches.html">TRẬN ĐẤU</a></li>
+            <li><a href="index.html#soccer-picture">SÂN CỎ</a></li>
+            <li><a href="index.html#contact">LIÊN HỆ</a></li>
+            <li ng-if="currentUser"><a href="profile.html" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
+            <li  ng-if="currentUser"><a ng-click="logout()" href="">ĐĂNG XUẤT</a></li>
+            <li  ng-if="!currentUser"><a href="index.html#about-us">ĐĂNG NHẶP</a></li>
           </ul>
         </div>
       </div>
     </nav>
+    </header>
+
 
     <div id="yourmatches">
       <div class="container">
@@ -100,5 +97,20 @@
 
     </div>
   </body>
+
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+  <script>
+    var myApp = angular.module("myApp",['ngCookies']);
+    myApp.controller("myCtrl",function($scope,$http,$cookies){
+
+        $scope.currentUser = $cookies.getObject('currentUser');
+
+        $scope.logout= function() {
+        $cookies.remove('currentUser');
+        $scope.currentUser = null;
+      };
+    });
+  </script>
 
 </html>

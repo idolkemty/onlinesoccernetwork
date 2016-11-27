@@ -49,31 +49,39 @@
     <div ng-if="!messenger"></div>
 
     <section >
-      <h1 class="text-center">REGISTER</h1>
+      <h1 class="text-center">Create match</h1>
       <div class="container " style= "padding-top: 50px">
 
           <form class="register-form">
             <div class="col-md-5 col-sm-offset-1  " >
               <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên" ng-model="user.first_name">
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên sân" ng-model="match.first_name">
               </div>
               <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Họ" ng-model="user.last_name">
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Số lượng" ng-model="user.last_name">
               </div>
               <div class="form-group">
                 <!-- <label for="exampleInputEmail1">Địa chỉ email</label> -->
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"  ng-model="user.email" >
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Thời gian bắt đầu"  ng-model="user.email" >
               </div>
               <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên đăng nhập" ng-model="user.name">
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Thời gian kết thúc " ng-model="user.name">
               </div>
+              <!-- <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div> -->
             </div>
 
-            <div class="col-md-5 col-sm-offset-1 " >
-              <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+            <!-- <div class="col-md-5 col-sm-offset-1 " >
+              <div class="form-group">
                 <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Mật khẩu" ng-model="user.password">
               </div>
-              <div class="form-group">        <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+              <div class="form-group">
                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Số điện thoại" ng-model="user.phone">
               </div>
               <select  class="form-control" ng-model="user.district" >
@@ -89,14 +97,18 @@
                 <option value="f">Female</option>
               </select>
 
-            </div>
+            </div> -->
             <div class="text-center">
-            <button ng-click="register()" type="submit" class="btn btn-primary ">Đăng ký</button>
+            <button ng-click="creatematch()" type="submit" class="btn btn-primary ">Submit</button>
             </div>
           </form>
     </div>
   </section>
-
+  <!-- <script type="text/javascript">
+             $(function () {
+                 $('#datetimepicker1').datetimepicker();
+             });
+         </script> -->
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/angular.min.js"></script>
   <script type="text/javascript" src="js/angular-cookies.min.js"></script>
@@ -112,19 +124,23 @@
         $cookies.remove('currentUser');
         $scope.currentUser = null;
       };
-    
+
       $scope.user={};
-      $scope.register = function() {
-        $http.post('https://khuebui.herokuapp.com/api/register?email='+$scope.user.email+'&username='+$scope.user.name+'&password='+$scope.user.password+'&district_id='+$scope.user.district+'&phone_number='+$scope.user.phone+'&gender='+$scope.user.gender+'&last_name='+$scope.user.last_name+'&first_name='+$scope.user.first_name).success(function(res){
-            $scope.messenger = res ;
-            $cookies.putObject('currentUser', $scope.currentUser);
-            $scope.user={};
-        }).error(function(res){
-            $scope.error = 'API error';
-            $scope.user={};
-        });
+      $scope.creatematch = function() {
+        window.location= '/matches.html';
       };
 
+      // $scope.messenger={};
+      // $scope.match={};
+      // $scope.creatematch = function() {
+      //   $http.post('https://khuebui.herokuapp.com/api/register?email='+$scope.user.email+'&username='+$scope.user.name+'&password='+$scope.user.password+'&district_id='+$scope.user.district+'&phone_number='+$scope.user.phone+'&gender='+$scope.user.gender+'&last_name='+$scope.user.last_name+'&first_name='+$scope.user.first_name).success(function(res){
+      //       $scope.messenger = res ;
+      //       window.location= '/matches.html';
+      //   }).error(function(res){
+      //       $scope.error = 'API error';
+      //
+      //   });
+      // };
     });
 
   </script>

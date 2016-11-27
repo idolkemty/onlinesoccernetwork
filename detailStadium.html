@@ -1,6 +1,6 @@
-<html ng-app="myApp">
+<html ng-app="myApp"   ng-controller="myCtrl">
   <head>
-    <title>Matches</title>
+    <title>Stadium</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
@@ -8,6 +8,7 @@
 
   </head>
   <body id="detailStadium">
+    <header>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -18,25 +19,21 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#myPage">HOME</a></li>
-            <li><a href="#band">UPCOMMING MATCHES</a></li>
-            <li><a href="#tour">SETUP A MATCH</a></li>
-            <li><a href="#contact">YOUR MATCHES</a></li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">USER CONTROL PANEL
-              <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Merchandise</a></li>
-                <li><a href="#">Extras</a></li>
-                <li><a href="#">Media</a></li>
-              </ul>
-            </li>
-            <li><a href="#contact">CONTACT</a></li>
-            <!-- <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li> -->
+            <li><a href="index.html">TRANG CHỦ</a></li>
+            <li><a href="index.html#about-us">GIỚI THIỆU</a></li>
+            <li><a href="index.html#soccer-system">SÂN BÓNG</a></li>
+            <li><a href="matches.html">TRẬN ĐẤU</a></li>
+            <li><a href="index.html#soccer-picture">SÂN CỎ</a></li>
+            <li><a href="index.html#contact">LIÊN HỆ</a></li>
+            <li ng-if="currentUser"><a href="profile.html"  style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
+            <li  ng-if="currentUser"><a ng-click="logout()" href="">ĐĂNG XUẤT</a></li>
+            <li  ng-if="!currentUser"><a href="index.html#about-us">ĐĂNG NHẶP</a></li>
           </ul>
         </div>
       </div>
     </nav>
+    </header>
+
 
     <div id="matches">
       <div class="container " >
@@ -76,13 +73,13 @@
             </table>
 
         </div> -->
-        <div class="col-md-6 "  ng-controller="myCtrl">
+        <div class="col-md-6 ">
             <h1>{{stadium.name}}</h1>
             <h2>{{stadium.address}}</h2>
-            <!-- <h2>Sáng: {{stadium.price_morning}} VNĐ</h2>
+            <h2>Sáng: {{stadium.price_morning}} VNĐ</h2>
             <h2>Chiều: {{stadium.price_afternoon}} VNĐ</h2>
             <h2>Tối: {{stadium.price_evening}} VNĐ</h2>
-            <h2>Liên hệ: {{stadium.phone_number}}</h2> -->
+            <h2>Liên hệ: {{stadium.phone_number}}</h2>
         </div>
 
 
@@ -99,33 +96,36 @@
 
 
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALTmC--e7ho0gW9wMgqeK2NaXybqVRch4"
-  async defer></script>
-
-    <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALTmC--e7ho0gW9wMgqeK2NaXybqVRch4"async defer></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-cookies.min.js"></script>
     <script >
-      var myApp = angular.module("myApp",[]);
-      myApp.controller("myCtrl",function($scope,$http,$location){
+      var myApp = angular.module("myApp",['ngCookies']);
+      myApp.controller("myCtrl",function($scope,$http,$location,$cookies){
+        $scope.currentUser = $cookies.getObject('currentUser');
+
         $scope.stadium = [] ;
-        $http.get('https://khuebui.herokuapp.com/api/field/'+ $location.search()['id']+'/').success(function(res){
-            $scope.stadium = res;
-            console.log($scope.stadium);
-            var map = new google.maps.Map(document.getElementById('map'), {
+            $http.get('https://khuebui.herokuapp.com/api/field/'+ $location.search()['id']+'/').success(function(res){
+                $scope.stadium = res;
+                console.log($scope.stadium);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  center: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
+                  scrollwheel: false,
+                  zoom: 16
 
-              center: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
-              scrollwheel: false,
-              zoom: 16
-
+                });
+                var marker = new google.maps.Marker({
+                 map: map,
+                 position: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
+                 title: 'Hello World!'
+               });
             });
-            var marker = new google.maps.Marker({
-         map: map,
-         position: {lat: $scope.stadium.lat*1, lng: $scope.stadium.lng*1},
-         title: 'Hello World!'
-       });
 
-        });
+              $scope.logout= function() {
+              $cookies.remove('currentUser');
+              $scope.currentUser = null;
+            };
       });
     </script>
 

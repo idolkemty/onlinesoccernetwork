@@ -1,4 +1,7 @@
-
+.messenger {
+padding-top: 50px;
+background: transparent !important;
+}
 .logo{
   width:50px !important;
   height: 50px !important;
@@ -96,6 +99,9 @@ h3, h4 {
   padding-top: 50px;
   padding-bottom: 50px;
 }
+#about-us #login input{
+  color:white ;
+}
 /*#about-us .row{
   color: white;
   padding-top: 50px;
@@ -156,15 +162,30 @@ h3, h4 {
     border-radius: 0px;
 }
 /*index*/
+#register button{
+  width:200px;
+}
+#register input{
+  color: white;
+}
+#register  select{
+   background: rgba(0,0,0,0.5) !important;
+  color: white !important;
+  margin-bottom: 35px
+}
+#profile  select{
+  margin-bottom: 35px
+}
 
 
 #profile, #register{
-    background: url('../images/about.jpg');
+      background: url('../images/about.jpg');
     background-size: 100% 100%;
     height: auto;
     display: block;
     height: 670px;
     padding-top:80px;
+    color: white !important;
 }
 
 #profile  .profile-form .form-control,
@@ -185,7 +206,9 @@ h3, h4 {
 }
 
 /*matches*/
-
+#matches .creatematch{
+  margin-bottom: 20px;
+}
 #matches,#yourmatches {
   padding-top: 100px;
 }

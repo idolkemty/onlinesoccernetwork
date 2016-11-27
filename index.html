@@ -24,11 +24,11 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#myPage">TRANG CHỦ</a></li>
         <li><a href="#about-us">GIỚI THIỆU</a></li>
-        <li><a href="#tour">SÂN BÓNG</a></li>
-        <li><a href="#contact">TRẬN ĐẤU</a></li>
-        <li><a href="#contact">SÂN CỎ</a></li>
+        <li><a href="#soccer-system">SÂN BÓNG</a></li>
+        <li><a href="matches.html">TRẬN ĐẤU</a></li>
+        <li><a href="#soccer-picture">SÂN CỎ</a></li>
         <li><a href="#contact">LIÊN HỆ</a></li>
-        <li ng-if="currentUser"><a href="#contact" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
+        <li ng-if="currentUser"><a href="profile.html" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
         <li  ng-if="currentUser"><a ng-click="logout()" href="">ĐĂNG XUẤT</a></li>
         <li  ng-if="!currentUser"><a href="#about-us">ĐĂNG NHẶP</a></li>
       </ul>
@@ -48,7 +48,7 @@
           <span>Thoải mái để chọn sân mình muốn.</span>
           <div class="button-index">
             <a class="btn " href="register.html">Đăng ký</a>
-            <a class="btn btn-primary" href="login.html">Đăng nhập</a>
+            <a class="btn btn-primary" href="#about-us">Đăng nhập</a>
           </div>
         </div>
 
@@ -61,7 +61,7 @@
           <span>Hảy đến với chúng tôi để tận hưởng những điều tuyệt vời nhất.</span>
           <div class="button-index">
             <a class="btn btn-primary" href="register.html">Đăng ký</a>
-            <a class="btn btn-primary"href="login.html">Đăng nhập</a>
+            <a class="btn btn-primary"href="#about-us">Đăng nhập</a>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
           <span>Hảy nhanh tay đăng ký để tận hưởng ứng dụng tuyệt vời của chúng tôi</span>
           <div class="button-index">
             <a class="btn btn-primary" href="register.html">Đăng ký</a>
-            <a class="btn btn-primary"href="login.html">Đăng nhập</a>
+            <a class="btn btn-primary"href="#about-us">Đăng nhập</a>
           </div>
         </div>
       </div>
@@ -147,10 +147,10 @@
                 <tr>
                   <th class="text-center">Tên Sân</th>
                   <th class="text-center">Địa Chỉ</th>
-                  <!-- <th class="text-center">Giá buổi sáng</th>
+                  <th class="text-center">Giá buổi sáng</th>
                   <th class="text-center">Giá buổi chiều</th>
                   <th class="text-center">Giá buổi tối</th>
-                  <th class="text-center">Số điện thoại</th> -->
+                  <th class="text-center">Số điện thoại</th>
                   <th class="text-center">Hình Ảnh</th>
                 </tr>
                 <tr style="border-bottom:1px solid #ddd" ng-repeat="stadium in filterData = (stadiums | limitTo:currentPage*3:3 * (currentPage - 1))" >
@@ -158,12 +158,12 @@
                    <a href="detailStadium.html#?id={{stadium.id}}" >{{stadium.name}}</a>
                   </td>
                   <td class="text-center"  >{{stadium.address}}</td>
-                  <!-- <td class="text-center" >{{stadium.price_morning}}</td>
+                  <td class="text-center" >{{stadium.price_morning}}</td>
                   <td class="text-center" >{{stadium.price_afternoon}}</td>
                   <td class="text-center" >{{stadium.price_evening}}</td>
-                  <td class="text-center" >{{stadium.phone_number}}</td> -->
+                  <td class="text-center" >{{stadium.phone_number}}</td>
                   <td class="text-center" >
-                    <img ng-if="stadium.photo" src="{{stadium.photo.source_size_lg}}" style="height:110px;width:110px" class="img-responsive" alt="Image">
+                    <img ng-if="stadium.photo" src="{{stadium.photo.img1}}" style="height:110px;width:110px" class="img-responsive" alt="Image">
                     <img ng-if="!stadium.photo" src="images/portfolio/11.jpg" style="height:110px;width:110px" class="img-responsive" alt="Image">
                   </td>
                 </tr>

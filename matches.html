@@ -19,31 +19,34 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#myPage">TRANG CHỦ</a></li>
-            <li><a href="#band">GIỚI THIÊUK</a></li>
-            <li><a href="#tour">SÂN BÓNG</a></li>
-            <li><a href="#contact">TRẬN ĐẤU</a></li>
-            <li><a href="#contact">SÂN CỎ</a></li>
-            <li><a href="#contact">LIÊN HỆ</a></li>
-            <li ng-if="currentUser"><a href="#contact" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
+            <li><a href="index.html">TRANG CHỦ</a></li>
+            <li><a href="index.html#about-us">GIỚI THIỆU</a></li>
+            <li><a href="index.html#soccer-system">SÂN BÓNG</a></li>
+            <li><a href="matches.html">TRẬN ĐẤU</a></li>
+            <li><a href="index.html#soccer-picture">SÂN CỎ</a></li>
+            <li><a href="index.html#contact">LIÊN HỆ</a></li>
+            <li ng-if="currentUser"><a href="profile.html" style="text-transform: uppercase">{{currentUser.first_name}}</a></li>
             <li  ng-if="currentUser"><a ng-click="logout()" href="">ĐĂNG XUẤT</a></li>
-            <li  ng-if="!currentUser"><a href="">ĐĂNG NHẶP</a></li>
+            <li  ng-if="!currentUser"><a href="index.html#about-us">ĐĂNG NHẶP</a></li>
           </ul>
         </div>
       </div>
     </nav>
     </header>
 
+
+
     <div id="matches">
       <div class="container " >
+
         <div class="row">
           <div class="heading text-center">
             <h2>Các trận đấu chuẩn bị diễn ra</h2>
           </div>
         </div>
 
-
-          <div class=" col-md-12" >
+            <a href="creatematch.html" class="creatematch btn btn-primary">Tạo trận</a>
+          <div class="col-md-12 col-sm-12 col-xs-12 text-center ">
 
               <table  >
                 <thead>
@@ -51,6 +54,7 @@
 
                   <th class="text-center">Tên sân</th>
                   <th class="text-center">Người tạo</th>
+                  <!-- <th class="text-center">Số lượng hiện tại</th> -->
                   <th class="text-center">Số lượng</th>
                   <th class="text-center">Giá cả</th>
                   <th class="text-center">Thời gian bắt đầu</th>
@@ -58,35 +62,44 @@
                   <th class="text-center">Chức năng</th>
 
                 </tr>
-                <tr ng-repeat="match in matches">
-                  <td>{{match.field_id}}</td>
-                  <td>{{match.host_id}}</td>
-                  <td>{{match.maximum_players}}</td>
+                <tr ng-repeat="match in filterData = (matches | limitTo:currentPage*3:3 * (currentPage - 1))" >
+                  <td><a href="detailStadium.html#?id={{match.field_id.id}}" >{{match.field_id.name}}</a></td>
+                  <td>{{match.host_id.first_name}}</td>
+                  <!-- <td>{{match.slots}}</td> -->
+                  <td>{{match.slots}}/{{match.maximum_players}}</td>
                   <td>{{match.price}}</td>
                   <td>{{match.start_time}}</td>
                   <td>{{match.end_time}}</td>
-                  <td>Join</td>
+                  <td><a href="" class="btn btn-warning" >Join</a></td>
                 </tr>
 
                 </thead>
               </table>
-
+              <ul uib-pagination total-items="totalItems" items-per-page="3" ng-model="currentPage" ng-change="pageChanged()"></ul>
           </div>
         </div>
       </div>
     </div>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
     <script >
-      var myApp = angular.module("myApp",['ngCookies']);
+      var myApp = angular.module("myApp",['ui.bootstrap','ngCookies']);
       myApp.controller("myCtrl",function($scope,$http,$cookies){
+        $scope.totalItems = 0;
+        $scope.currentPage = 1;
+
+
         $scope.currentUser = $cookies.getObject('currentUser');
         console.log($scope.currentUser);
 
         $scope.matches = [] ;
         $http.get('https://khuebui.herokuapp.com/api/matches/').success(function(res){
             $scope.matches = res;
+            $scope.totalItems = res.length;
         });
+
+
         $scope.logout= function() {
           $cookies.remove('currentUser');
           $scope.currentUser = null;
